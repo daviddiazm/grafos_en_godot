@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://b6n6huhdrlxg"]
+
+[ext_resource type="Shader" uid="uid://cvyc0e65khvfe" path="res://escenes/init.gdshader" id="1_2vt4m"]
+[ext_resource type="Texture2D" uid="uid://3m02lbh1a1ka" path="res://Pixel UI pack 3/Imagen pegada.png" id="1_6afh4"]
+[ext_resource type="Script" uid="uid://bs24ow5d1hch5" path="res://escenes/init.gd" id="1_nonbf"]
+[ext_resource type="PackedScene" uid="uid://dtleld6ktkoxi" path="res://escenes/vertice.tscn" id="3_21oup"]
+[ext_resource type="Script" uid="uid://bbttnqp4mnfcw" path="res://escenes/graph_system.gd" id="4_iic68"]
+[ext_resource type="PackedScene" uid="uid://b7amjvgh8cse8" path="res://escenes/arista.tscn" id="6_wnsga"]
+[ext_resource type="Script" uid="uid://0pqhbt6nbx2q" path="res://escenes/arista.gd" id="7_yoho1"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_21oup"]
+shader = ExtResource("1_2vt4m")
+
+[node name="Init" type="Node2D" unique_id=2064702438 node_paths=PackedStringArray("vertice")]
+script = ExtResource("1_nonbf")
+vertice = NodePath("Vertice")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=249717302]
+material = SubResource("ShaderMaterial_21oup")
+position = Vector2(586.00006, 332.00003)
+scale = Vector2(1.7712417, 1.3347827)
+texture = ExtResource("1_6afh4")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1483352768]
+position = Vector2(585, 333)
+
+[node name="GraphSystem" type="Node" parent="." unique_id=380066269]
+script = ExtResource("4_iic68")
+
+[node name="Vertice" parent="." unique_id=1817431897 instance=ExtResource("3_21oup")]
+
+[node name="Arista" parent="." unique_id=446514048 instance=ExtResource("6_wnsga")]
+script = ExtResource("7_yoho1")

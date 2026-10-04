@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://b7amjvgh8cse8"]
+
+[node name="Arista" type="Node2D" unique_id=446514048]
+
+[node name="Line2D" type="Line2D" parent="." unique_id=1823689148]
+points = PackedVector2Array(0, 0, 50, 0)
+width = 2.0
+default_color = Color(0, 0, 0, 1)
