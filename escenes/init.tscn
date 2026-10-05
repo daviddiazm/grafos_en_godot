@@ -6,7 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://dtleld6ktkoxi" path="res://escenes/vertice.tscn" id="3_21oup"]
 [ext_resource type="Script" uid="uid://bbttnqp4mnfcw" path="res://escenes/graph_system.gd" id="4_iic68"]
 [ext_resource type="PackedScene" uid="uid://b7amjvgh8cse8" path="res://escenes/arista.tscn" id="6_wnsga"]
-[ext_resource type="Script" uid="uid://0pqhbt6nbx2q" path="res://escenes/arista.gd" id="7_yoho1"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_21oup"]
 shader = ExtResource("1_2vt4m")
@@ -17,12 +16,12 @@ vertice = NodePath("Vertice")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=249717302]
 material = SubResource("ShaderMaterial_21oup")
-position = Vector2(586.00006, 332.00003)
+position = Vector2(559.00006, 303)
 scale = Vector2(1.7712417, 1.3347827)
 texture = ExtResource("1_6afh4")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1483352768]
-position = Vector2(585, 333)
+position = Vector2(545, 290)
 
 [node name="GraphSystem" type="Node" parent="." unique_id=380066269]
 script = ExtResource("4_iic68")
@@ -30,4 +29,20 @@ script = ExtResource("4_iic68")
 [node name="Vertice" parent="." unique_id=1817431897 instance=ExtResource("3_21oup")]
 
 [node name="Arista" parent="." unique_id=446514048 instance=ExtResource("6_wnsga")]
-script = ExtResource("7_yoho1")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=501219948]
+offset_left = 924.0
+offset_top = 1.9999981
+offset_right = 993.87177
+offset_bottom = 52.0
+scale = Vector2(1.7223003, 1.7319757)
+
+[node name="IdArista" type="Label" parent="VBoxContainer" unique_id=651406516]
+modulate = Color(0, 0, 0, 1)
+layout_mode = 2
+text = "hola"
+
+[node name="Peso_f" type="Label" parent="VBoxContainer" unique_id=408582736]
+modulate = Color(0, 0, 0, 1)
+layout_mode = 2
+text = "99"
