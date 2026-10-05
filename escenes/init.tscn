@@ -46,3 +46,7 @@ text = "hola"
 modulate = Color(0, 0, 0, 1)
 layout_mode = 2
 text = "99"
+
+[node name="Button" type="Button" parent="VBoxContainer" unique_id=1176024128]
+layout_mode = 2
+text = "prim"
