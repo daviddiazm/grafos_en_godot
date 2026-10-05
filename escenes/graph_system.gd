@@ -88,7 +88,7 @@ func impl_graph() -> void:
 			
 			if not edge_id in drawn_edges.keys():
 				#drawn_edges.append(edge_id)
-				drawn_edges[edge_id] = {min_v:{}, max_v:{}, arista: {}}
+				drawn_edges[edge_id] = {min_v:visual_vertices[min_v], max_v:visual_vertices[max_v], "arista": {}, "color": ""}
 				_dibujar_linea(visual_vertices[v1].position, visual_vertices[v2].position, edge_id)
 	# print(visual_vertices)
 
@@ -96,28 +96,45 @@ func _dibujar_linea(pos1: Vector2, pos2: Vector2, edge_id: String) -> void:
 	var init := get_parent()
 	var nueva_arista = arista.duplicate() as Arista
 	init.add_child(nueva_arista)
-
-	var line = nueva_arista.get_node("Line2D") as Line2D
-	line.clear_points()
-
+	var color = Color.BLACK
 	var peso = 0
 
 	var edge_split = edge_id.split("_")
 	var vector_edge_1 = int(edge_split[0]) 
 	var vector_edge_2 = int(edge_split[1])
 	
-	#if vector_edge_1 % 5 == 0 and vector_edge_2 % 5 == 0:
-	if vector_edge_1 % 5 == 0:
+	if vector_edge_1 % 5 == 0 and vector_edge_2 % 5 == 0:
 		peso = vector_edge_1 + vector_edge_2
-		#nueva_arista.change_normal_color("BLUE")
-		nueva_arista.COLOR_NORMAL = Color.GREEN
+		color = Color.CHOCOLATE
+		
+	if vector_edge_1 == 3 and vector_edge_2 % 2 == 0 and vector_edge_2 > 4:
+		peso = -2
+		color = Color.DARK_ORCHID
+	if vector_edge_1 == 7 and vector_edge_2  == 14 :
+		peso = -4
+		color = Color.DEEP_PINK
+	if comprobarAbsoluto(vector_edge_1, vector_edge_2) == 1:
+		peso = 1
+		color = Color.CORNFLOWER_BLUE
 	
+	peso = comprobarAbsoluto(vector_edge_1,vector_edge_2) * 2
+	
+	var line = nueva_arista.get_node("Line2D") as Line2D
+	line.clear_points()
 
-	nueva_arista.create_line(pos1, pos2, edge_id, peso)
+
+	nueva_arista.create_line(pos1, pos2, edge_id, peso, color)
 
 	nueva_arista.mouse_enter_custom.connect(_on_arista_mouse_enter_custom)
 	nueva_arista.mouse_exit_custom.connect(_on_arista_mouse_exit_custom)
 
+
+func comprobarAbsoluto(num1:int, num2:int):
+	var resta = num1 - num2
+	var valorAbsoluto = 0
+	if resta < 0:
+		valorAbsoluto = resta * -1
+	return valorAbsoluto
 
 func _on_arista_mouse_enter_custom(a: Arista) -> void:
 	label_id.text = "Arista: " + a.id_arista
