@@ -87,13 +87,19 @@ func impl_graph() -> void:
 		for v2 in adjacency_list[v1]:
 			var min_v = min(v1, v2)
 			var max_v = max(v1, v2)
-			var edge_id = str(min_v) + "_" + str(max_v)
-			
+			#var edge_id = str(min_v) + "_" + str(max_v)
+			var edge_id = generate_id(v1, v2)
 			if not edge_id in drawn_edges.keys():
 				# Obtenemos la nueva arista y la guardamos en el diccionario
 				var nueva_arista = _dibujar_linea(visual_vertices[v1].position, visual_vertices[v2].position, edge_id)
-				drawn_edges[edge_id] = {"min_v": min_v, "max_v": max_v, "arista": nueva_arista}
-	# print(visual_vertices)
+				drawn_edges[edge_id] = {"min_v": min_v, "max_v": max_v, "arista": nueva_arista, "peso": nueva_arista.peso_valor}
+	run_prim_d()
+
+func generate_id(v1: int, v2:int) -> String:
+	var min_v = min(v1, v2)
+	var max_v = max(v1, v2)
+	var edge_id = str(min_v) + "_" + str(max_v)
+	return edge_id
 
 func _dibujar_linea(pos1: Vector2, pos2: Vector2, edge_id: String) -> Arista:
 	var init := get_parent()
@@ -103,8 +109,11 @@ func _dibujar_linea(pos1: Vector2, pos2: Vector2, edge_id: String) -> Arista:
 	var peso = 0
 
 	var edge_split = edge_id.split("_")
-	var vector_edge_1 = int(edge_split[0]) 
+	var vector_edge_1 = int(edge_split[0])
 	var vector_edge_2 = int(edge_split[1])
+	
+	peso = comprobarAbsoluto(vector_edge_1, vector_edge_2) * 2
+	
 
 	if vector_edge_1 % 5 == 0 and vector_edge_2 % 5 == 0:
 		peso = vector_edge_1 + vector_edge_2
@@ -114,7 +123,7 @@ func _dibujar_linea(pos1: Vector2, pos2: Vector2, edge_id: String) -> Arista:
 		peso = -2
 		color = Color.DARK_ORCHID
 		
-	if vector_edge_1 == 7 and vector_edge_2  == 14 :
+	if vector_edge_1 == 7 and vector_edge_2 == 14:
 		peso = -4
 		color = Color.DEEP_PINK
 		
@@ -122,8 +131,6 @@ func _dibujar_linea(pos1: Vector2, pos2: Vector2, edge_id: String) -> Arista:
 		peso = 1
 		color = Color.CORNFLOWER_BLUE
 
-	# Nota: Esta línea sobrescribe todos los pesos calculados arriba.
-	peso = comprobarAbsoluto(vector_edge_1,vector_edge_2) * 2
 
 	var line = nueva_arista.get_node("Line2D") as Line2D
 	line.clear_points()
@@ -132,15 +139,54 @@ func _dibujar_linea(pos1: Vector2, pos2: Vector2, edge_id: String) -> Arista:
 	nueva_arista.mouse_enter_custom.connect(_on_arista_mouse_enter_custom)
 	nueva_arista.mouse_exit_custom.connect(_on_arista_mouse_exit_custom)
 
-	# IMPORTANTE: Retornar la arista generada
 	return nueva_arista
 
-func comprobarAbsoluto(num1:int, num2:int):
+func comprobarAbsoluto(num1: int, num2: int):
 	var resta = num1 - num2
 	var valorAbsoluto = 0
 	if resta < 0:
 		valorAbsoluto = resta * -1
 	return valorAbsoluto
+
+
+func run_prim_d() -> void:
+	var num_vertices = adjacency_list.size()
+	var visitados = []
+	#var primer_verticie = adjacency_list.get("0")
+	var valor_inicial = INF 
+	
+	var matriz_vectores = []
+	
+	#entregar a la profe:
+	#print("valor y relacion entre aristas", drawn_edges)
+	
+	for i in range(1,num_vertices+1):
+		var fila = []
+		for j in range(1,num_vertices+1):
+			fila.append(valor_inicial)
+		matriz_vectores.append(fila)
+	matriz_vectores[0][2] = 0
+	print(matriz_vectores)
+	
+	var pos_valu_min = INF
+	var min_value = INF
+	for fila_pos in range(1,matriz_vectores[0].size()+1):
+		var new_value = matriz_vectores[0][fila_pos-1]
+		if min_value > new_value:
+			min_value = new_value
+			pos_valu_min = fila_pos
+		pass
+	print("pos ",pos_valu_min," value ", min_value) 
+	
+	
+	for vertice_index in range(1,num_vertices+1):
+		if visitados.size() >= num_vertices:
+			return
+			
+		for vertex in adjacency_list[vertice_index]:
+			pass
+		pass
+	pass
 
 func run_prim() -> void:
 	if adjacency_list.is_empty():
@@ -164,7 +210,7 @@ func run_prim() -> void:
 		# Revisamos todos los vértices ya visitados
 		for u in visited:
 			# ---> FALTABA ESTA LÍNEA: <---
-			for v in adjacency_list[u]: 
+			for v in adjacency_list[u]:
 				if not v in visited: # Si el vecino NO ha sido visitado
 					# Generamos el ID de la arista tal como lo hiciste antes
 					var min_v = min(u, v)
@@ -195,14 +241,13 @@ func run_prim() -> void:
 func _highlight_mst(mst_edges: Array) -> void:
 	for edge_id in drawn_edges.keys():
 		var a = drawn_edges[edge_id]["arista"] as Arista
-		#a.change_normal_color(Color(0.5, 0.5, 0.5, 0.3)) # Gris transparente
-		a.change_normal_color(Color(0.5, 0.5, 0.5, 0.3)) # Gris transparente
-		a.line.width = 2.0 
+		a.change_normal_color(Color(0.5, 0.5, 0.5, 0.3))
+		a.line.width = 2.0
 	for edge_id in mst_edges:
 		if drawn_edges.has(edge_id):
 			var a = drawn_edges[edge_id]["arista"] as Arista
 			a.change_normal_color(Color.GOLD)
-			a.line.width = 6.0 # Hacer la línea más gruesa
+			a.line.width = 6.0
 
 func _on_arista_mouse_enter_custom(a: Arista) -> void:
 	label_id.text = "Arista: " + a.id_arista
@@ -212,8 +257,6 @@ func _on_arista_mouse_enter_custom(a: Arista) -> void:
 func _on_arista_mouse_exit_custom(_a: Arista) -> void:
 	label_id.text = "-"
 	label_peso.text = "-"
-
-
 
 
 func _on_btn_prim_pressed() -> void:
