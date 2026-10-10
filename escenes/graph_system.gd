@@ -8,6 +8,14 @@ extends Node
 @onready var label_peso: Label = $"../VBoxContainer/Peso_f"
 #@onready var vertice: PackedScene
 @onready var btn_prim: Button = $"../VBoxContainer/Button"
+@onready var btn_more_info: Button = $"../VBoxContainer/infoBtn"
+
+@onready var panelInformation: Panel = $"../Panel"
+#@onready var btn_close_panel: Button = 
+@onready var labelMoreInfo: Label = $"../Panel/Label"
+@onready var btn_aris_ver: Button = $"../Panel/ArisVer"
+@onready var btn_aris_prim: Button = $"../Panel/ArisPrim"
+
 
 func _ready() -> void:
 	arista.mouse_enter_custom.connect(_on_arista_mouse_enter_custom)
@@ -16,10 +24,22 @@ func _ready() -> void:
 	label_peso.text = "-"
 	if btn_prim:
 		btn_prim.pressed.connect(_on_btn_prim_pressed)
+	if btn_more_info:
+		btn_more_info.pressed.connect(_on_info_btn_pressed)
+	if panelInformation and panelInformation.get_node("ClosePanel"):
+		var btn_close_panel: Button = panelInformation.get_node("ClosePanel")
+		btn_close_panel.pressed.connect(_on_close_panel_pressed)
+	if btn_aris_ver:
+		btn_aris_ver.pressed.connect(_on_aris_ver_pressed)
+	if btn_aris_prim:
+		btn_aris_prim.pressed.connect(_on_aris_prim_pressed)
 
 var adjacency_list: Dictionary = {}
 var visual_vertices: Dictionary = {}
 var drawn_edges: Dictionary = {}
+var mst_edges = []
+
+
 
 func add_vertex(id: int) -> void:
 	if not adjacency_list.has(id):
@@ -194,7 +214,6 @@ func run_prim() -> void:
 		return
 
 	var visited = []
-	var mst_edges = []
 
 	# 1. Empezamos con el primer vértice disponible
 	var start_vertex = adjacency_list.keys()[0]
@@ -265,3 +284,27 @@ func _on_btn_prim_pressed() -> void:
 		run_prim()
 	else:
 		print("Primero debes generar el grafo antes de ejecutar Prim.")
+
+
+func _on_info_btn_pressed() -> void:
+	labelMoreInfo.text = ""
+	panelInformation.visible = true
+	panelInformation.show_behind_parent = false
+	run_prim()
+	labelMoreInfo.text = "\narbol de expancion minima: \n"+str(mst_edges)
+
+
+
+func _on_close_panel_pressed() -> void:
+	panelInformation.visible = false
+	panelInformation.show_behind_parent = true
+
+
+func _on_aris_ver_pressed() -> void:
+	labelMoreInfo.text = ""
+	labelMoreInfo.text = "\nlista de vecinos por vertice: \n"+JSON.stringify(adjacency_list)
+
+
+func _on_aris_prim_pressed() -> void:
+	labelMoreInfo.text = ""
+	labelMoreInfo.text = "\narbol de expancion minima: \n"+str(mst_edges)

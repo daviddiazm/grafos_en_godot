@@ -10,18 +10,26 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_21oup"]
 shader = ExtResource("1_2vt4m")
 
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_mikvy"]
+blend_mode = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mikvy"]
+bg_color = Color(0.48962224, 0.48962224, 0.48962206, 1)
+border_width_left = 3
+border_color = Color(0.44286454, 0.9050013, 0.7093912, 1)
+
 [node name="Init" type="Node2D" unique_id=2064702438 node_paths=PackedStringArray("vertice")]
 script = ExtResource("1_nonbf")
 vertice = NodePath("Vertice")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=249717302]
 material = SubResource("ShaderMaterial_21oup")
-position = Vector2(559.00006, 303)
-scale = Vector2(1.7712417, 1.3347827)
+position = Vector2(525, 322)
+scale = Vector2(1.5661775, 1.3737125)
 texture = ExtResource("1_6afh4")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1483352768]
-position = Vector2(545, 290)
+position = Vector2(607, 320)
 
 [node name="GraphSystem" type="Node" parent="." unique_id=380066269]
 script = ExtResource("4_iic68")
@@ -31,10 +39,10 @@ script = ExtResource("4_iic68")
 [node name="Arista" parent="." unique_id=446514048 instance=ExtResource("6_wnsga")]
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=501219948]
-offset_left = 924.0
-offset_top = 1.9999981
-offset_right = 993.87177
-offset_bottom = 52.0
+offset_left = 1029.0
+offset_top = 13.000001
+offset_right = 1104.0
+offset_bottom = 133.0
 scale = Vector2(1.7223003, 1.7319757)
 
 [node name="IdArista" type="Label" parent="VBoxContainer" unique_id=651406516]
@@ -50,3 +58,57 @@ text = "99"
 [node name="Button" type="Button" parent="VBoxContainer" unique_id=1176024128]
 layout_mode = 2
 text = "prim"
+
+[node name="infoBtn" type="Button" parent="VBoxContainer" unique_id=1783958380]
+layout_mode = 2
+text = "mas info"
+
+[node name="Panel" type="Panel" parent="." unique_id=796365321]
+visible = false
+top_level = true
+z_index = 2
+material = SubResource("CanvasItemMaterial_mikvy")
+offset_left = 90.0
+offset_top = 56.999996
+offset_right = 814.0
+offset_bottom = 452.0
+scale = Vector2(1.2133334, 1.3043478)
+
+[node name="ClosePanel" type="Button" parent="Panel" unique_id=978963558]
+layout_mode = 0
+offset_left = 690.0
+offset_top = 5.000002
+offset_right = 708.0
+offset_bottom = 36.0
+scale = Vector2(1.6799998, 1.0438495)
+text = "X"
+
+[node name="Label" type="Label" parent="Panel" unique_id=312084861]
+layout_mode = 0
+offset_left = 16.483515
+offset_top = 45.233334
+offset_right = 696.4835
+offset_bottom = 380.23334
+text = "[[inf, inf, 0, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf], [inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf], [inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf], [inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf], [inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf], [inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf], [inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf], [inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf], [inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf], [inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf], [inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf], [inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf], [inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf], [inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf], [inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf], [inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf]]
+"
+autowrap_mode = 3
+
+[node name="ArisVer" type="Button" parent="Panel" unique_id=1283809792]
+layout_mode = 0
+offset_left = 25.54945
+offset_top = 9.199997
+offset_right = 174.54945
+offset_bottom = 40.199997
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_mikvy")
+text = "Aristas por vertice"
+
+[node name="ArisPrim" type="Button" parent="Panel" unique_id=52754351]
+layout_mode = 0
+offset_left = 196.97801
+offset_top = 9.199997
+offset_right = 298.97803
+offset_bottom = 40.199997
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_mikvy")
+text = "Aristas Prim"
