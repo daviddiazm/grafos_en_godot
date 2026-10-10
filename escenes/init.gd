@@ -5,7 +5,13 @@ class_name Init
 
 @onready var graph: GraphSystem = $GraphSystem
 
+@onready var btn_reset: Button = $btnReset
+
 func _ready() -> void:
+	if btn_reset:
+		btn_reset.pressed.connect(_on_btn_reset_pressed)
+	
+	
 	graph = GraphSystem.new()
 	add_child(graph)
 	
@@ -25,6 +31,13 @@ func _ready() -> void:
 	
 	
 	
+	graph.generate_complete_graph(16)
+	
+	graph.print_graph()
+
+
+func _on_btn_reset_pressed() -> void:
+	graph.clear_visuals()
 	graph.generate_complete_graph(16)
 	
 	graph.print_graph()

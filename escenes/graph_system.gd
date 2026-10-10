@@ -208,6 +208,24 @@ func run_prim_d() -> void:
 		pass
 	pass
 
+func clear_visuals() -> void:
+	# 1. Eliminar vértices de la escena
+	for v_id in visual_vertices:
+		if is_instance_valid(visual_vertices[v_id]):
+			visual_vertices[v_id].queue_free()
+
+	# 2. Eliminar aristas de la escena
+	for edge_id in drawn_edges:
+		var arista_node = drawn_edges[edge_id]["arista"]
+		if is_instance_valid(arista_node):
+			arista_node.queue_free()
+			
+	# 3. Limpiar todos los diccionarios y arreglos de datos
+	visual_vertices.clear()
+	drawn_edges.clear()
+	adjacency_list.clear()
+	mst_edges.clear()
+
 func run_prim() -> void:
 	if adjacency_list.is_empty():
 		print("El grafo está vacío.")
